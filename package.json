@@ -1,0 +1,22 @@
+{
+  "name": "elasticSearch",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "chenn",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc index.ts && node index.js"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.43"
+  },
+  "dependencies": {
+    "@types/elasticsearch": "^5.0.35",
+    "@types/es6-promise": "^3.3.0",
+    "@types/node": "^12.7.12",
+    "elasticsearch": "^16.4.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "typescript": "^3.5.2"
+  }
+}
