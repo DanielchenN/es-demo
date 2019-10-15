@@ -75,13 +75,42 @@ const matchBool = async function (params: void) {
   const body = {
     query: {
       bool: {
-        // must: {match: {name: 'Agara'}},
+        must: {match: {name: 'Agara'}},
         // 下面两个should等价 must写法同理
         // should: {match: {name: "Agara Adigeni"}}
         // should: [
         //   {match: {name: 'Adigeni'}},
         //   {match: {name: 'Agara'}},
         // ],
+      }
+    },
+    size: 100
+  }
+  return await client.search({index:'cities.index',  body:body, type:'cities_list'})
+}
+
+// operator
+// 注意这里， name 里面包含 "Agara 或者 Adigeni"， should 这里作为权重出现。
+// 可以更改 should 的 name 与must相同 来观察权重（_score字段）
+// 类似的 我们可以加入 boost属性，手动调节权重 
+// bool使用的是more match is better
+const bulkOperater = async function () {
+  const body = {
+    query: {
+      bool: {
+        must: {
+          match: {
+            name: {
+              query: "Agara Adigeni",
+              // 默认是or ,加上是 and, 表示同时满足
+              operator: "or"
+            }
+          }
+        },
+        should: [
+          {match: {name: 'Ordino'}},
+          {match: {name: 'Agara'}},
+        ],
       }
     },
     size: 100
@@ -103,7 +132,8 @@ async function run () {
   const matchAll = await bulkMatchAll()
   const matchName = await buikMatch()
   const bulkBoll = await matchBool()
-  console.log('matchName', bulkBoll.hits.hits)
+  const operater = await bulkOperater()
+  console.log('matchName', operater.hits.hits)
 }
 
 run()
