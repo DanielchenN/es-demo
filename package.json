@@ -5,7 +5,8 @@
   "author": "chenn",
   "license": "MIT",
   "scripts": {
-    "start": "tsc index.ts && node index.js"
+    "start": "tsc index.ts && node index.js",
+    "mapping": "tsc mapping.ts && node mapping.js"
   },
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.43"

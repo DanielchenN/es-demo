@@ -143,7 +143,9 @@ var matchBool = function (params) {
 };
 // operator
 // 注意这里， name 里面包含 "Agara 或者 Adigeni"， should 这里作为权重出现。
-// 可以更改 should 的 name 与must相同 来观察权重（_score字段） 
+// 可以更改 should 的 name 与must相同 来观察权重（_score字段）
+// 类似的 我们可以加入 boost属性，手动调节权重 
+// bool使用的是more match is better
 var bulkOperater = function () {
     return __awaiter(this, void 0, void 0, function () {
         var body;
@@ -176,9 +178,28 @@ var bulkOperater = function () {
         });
     });
 };
+var regxpSearch = function (params) {
+    return __awaiter(this, void 0, void 0, function () {
+        var body;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    body = {
+                        query: {
+                            match: {
+                                name: "agosta"
+                            }
+                        }
+                    };
+                    return [4 /*yield*/, client.search({ index: 'cities.index', body: body, type: 'cities_list' })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+};
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var resp2, matchAll, matchName, bulkBoll, operater;
+        var resp2, matchAll, matchName, bulkBoll, operater, reg;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, client.index({
@@ -205,7 +226,10 @@ function run() {
                     return [4 /*yield*/, bulkOperater()];
                 case 5:
                     operater = _a.sent();
-                    console.log('matchName', operater.hits.hits);
+                    return [4 /*yield*/, regxpSearch()];
+                case 6:
+                    reg = _a.sent();
+                    console.log('matchName', reg.hits.hits);
                     return [2 /*return*/];
             }
         });

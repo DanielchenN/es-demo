@@ -118,6 +118,19 @@ const bulkOperater = async function () {
   return await client.search({index:'cities.index',  body:body, type:'cities_list'})
 }
 
+
+const regxpSearch = async function (params:void) {
+  const body = {
+    query: {
+      regexp: {
+        name: "agost."
+      }
+    }
+  }
+  return await client.search({index:'cities.index',  body:body, type:'cities_list'})
+}
+
+
 async function run () {
   const resp2 = await client.index({
     index: 'scotch.io-tutorial',
@@ -133,7 +146,8 @@ async function run () {
   const matchName = await buikMatch()
   const bulkBoll = await matchBool()
   const operater = await bulkOperater()
-  console.log('matchName', operater.hits.hits)
+  const reg = await regxpSearch()
+  console.log('matchName', reg.hits.hits)
 }
 
 run()
